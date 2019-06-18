@@ -51,17 +51,18 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 	
-	@Override
-	public List<User> getUsers(Long pageNo) {
-		PageRequest pageRequest = PageRequest.of((int) (pageNo - 1), 3, new Sort(Sort.Direction.DESC, "id"));
-		Page<UserEntity> entities = repository.findAll(pageRequest);
-		List<User> users = new ArrayList<User>();
-		for(UserEntity entity : entities) {
-			User user = entity.buildDomain();
-			users.add(user);
-		}
-		return users;
-	}	
+	   @Override
+	   public List<User> getUsers(Long pageNo) {
+	      if (pageNo == null) pageNo = 1l;
+	      PageRequest pageRequest = PageRequest.of((int) (pageNo - 1), 3, new Sort(Sort.Direction.DESC, "id"));
+	      Page<UserEntity> entities = repository.findAll(pageRequest);
+	      List<User> users = new ArrayList<User>();
+	      for(UserEntity entity : entities) {
+	         User user = entity.buildDomain();
+	         users.add(user);
+	      }
+	      return users;
+	   }   
 	
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
